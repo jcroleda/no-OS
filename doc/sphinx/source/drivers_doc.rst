@@ -162,3 +162,11 @@ GYROSCOPES
    :glob:
 
    drivers/gyroscope/*
+   
+
+MAGNETOMETER
+================
+.. toctree::
+   :maxdepth: 1
+
+   drivers/magnetometer/*
