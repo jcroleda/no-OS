@@ -99,3 +99,10 @@ GYROSCOPES
    :glob:
 
    projects/gyroscope/*
+
+MAGNETOMETER
+==============
+.. toctree::
+   :maxdepth: 1
+
+   projects/admt4000
