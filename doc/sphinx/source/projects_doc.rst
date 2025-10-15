@@ -101,7 +101,7 @@ GYROSCOPES
    projects/gyroscope/*
 
 LED
-============
+===
 .. toctree::
    :maxdepth: 1
    :glob:
