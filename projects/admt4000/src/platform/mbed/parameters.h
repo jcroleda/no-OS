@@ -50,41 +50,40 @@
 /******************************************************************************/
 /********************** Macros and Constants Definitions **********************/
 /******************************************************************************/
-#define UART_TX_PIN		CONSOLE_TX
-#define	UART_RX_PIN		CONSOLE_RX
-#define UART_IRQ_ID		0
+#define UART_TX_PIN		    CONSOLE_TX
+#define	UART_RX_PIN		    CONSOLE_RX
+#define UART_IRQ_ID		    0
 #define UART_DEVICE_ID		0
 #define UART_BAUDRATE		230400
-#define UART_OPS		&mbed_uart_ops
-#define UART_EXTRA		&uart_extra_ip
+#define UART_OPS		    &mbed_uart_ops
+#define UART_EXTRA		    &uart_extra_ip
 
 /* SPI Pin mapping for Arduino interface */
-#define SPI_CS			ARDUINO_UNO_D10
-#define SPI_MOSI		ARDUINO_UNO_D11
-#define SPI_MISO		ARDUINO_UNO_D12
-#define SPI_SCK			ARDUINO_UNO_D13
-#define SPI_DEVICE_ID		0
-#define SPI_BAUDRATE		2000000
-#define SPI_OPS			&mbed_spi_ops
-#define SPI_EXTRA		&spi_extra_ip
-#define SPI_SEL_EXTRA		&spi_sel_b_extra_ip
-#define SPI_TMC_EXTRA		&spi_tmc_extra_ip
+#define SPI_CS			    ARDUINO_UNO_D10
+#define SPI_MOSI		    ARDUINO_UNO_D11
+#define SPI_MISO		    ARDUINO_UNO_D12
+#define SPI_SCK			    ARDUINO_UNO_D13
+#define SPI_DEVICE_ID       0
+#define SPI_BAUDRATE	    2000000
+#define SPI_OPS			    &mbed_spi_ops
+#define SPI_EXTRA		    &spi_extra_ip
+#define SPI_TMC_EXTRA	    &spi_tmc_extra_ip
 
-#define GPIO_SPI_SEL_PORT	0
-#define GPIO_SPI_SEL_PIN	ARDUINO_UNO_D8
-#define GPIO_OPS		&mbed_gpio_ops
-#define GPIO_EXTRA		&gpio_extra_ip
-#define GPIO_SHDN_N		ARDUINO_UNO_D2
-#define GPIO_GPIO0_BUSY		ARDUINO_UNO_D3
-#define GPIO_COIL_RS		ARDUINO_UNO_D4
-#define GPIO_CNV		ARDUINO_UNO_D5
+#define GPIO_OPS		        &mbed_gpio_ops
+#define GPIO_EXTRA		        &gpio_extra_ip
 
-#define GPIO_ACALC_PORT		0
-#define GPIO_ACALC		ARDUINO_UNO_D6
+#define GPIO_SPI_SEL_PORT	    0
+#define GPIO_SPI_SEL_PIN	    ARDUINO_UNO_D8
+#define GPIO_SHDN_N_PIN		    ARDUINO_UNO_D2
+#define GPIO_GPIO0_BUSY_PIN		ARDUINO_UNO_D3
+#define GPIO_COIL_RS_PIN	    ARDUINO_UNO_D4
+#define GPIO_CNV_PIN		    ARDUINO_UNO_D5
+#define GPIO_ACALC_PORT		    0
+#define GPIO_ACALC_PIN		    ARDUINO_UNO_D6
 
 #define GPIO_IRQ_ID             10
-#define GPIO_IRQ_OPS		&mbed_gpio_irq_ops
-#define GPIO_IRQ_EXTRA		&trigger_gpio_irq_ip
+#define GPIO_IRQ_OPS		    &mbed_gpio_irq_ops
+#define GPIO_IRQ_EXTRA		    &trigger_gpio_irq_ip
 #define GPIO_IRQ_INTR_PRIORITY	EXTI15_10_IRQn
 
 #define ADMT4000_GPIO_CB_HANDLE		NULL /* Not used in Mbed platform */
@@ -97,7 +96,6 @@
 
 extern struct mbed_uart_init_param uart_extra_ip;
 extern struct mbed_spi_init_param spi_extra_ip;
-extern struct mbed_spi_init_param spi_sel_b_extra_ip;
 extern struct mbed_spi_init_param spi_tmc_extra_ip;
 extern struct mbed_gpio_init_param gpio_extra_ip;
 extern struct mbed_gpio_irq_init_param trigger_gpio_irq_ip;

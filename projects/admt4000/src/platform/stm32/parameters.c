@@ -47,16 +47,11 @@ struct stm32_spi_init_param spi_extra_ip = {
 	.chip_select_port = SPI_CS_PORT,
 };
 
-struct stm32_spi_init_param spi_sel_b_extra_ip = {
-	.chip_select_port = GPIO_SPI_SEL_PORT,
-};
-
 #if (TMC)
 struct stm32_spi_init_param spi_tmc_extra_ip = {
 	.chip_select_port = TMC_CS_PORT,
 };
 #endif
-
 
 struct stm32_gpio_irq_init_param trigger_gpio_irq_ip = {
 	.port_nb = 0, /* Port A */

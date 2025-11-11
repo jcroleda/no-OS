@@ -36,6 +36,7 @@
 #include "iio_admt4000.h"
 #include "iio_trigger.h"
 #include "iio_app.h"
+#include "no_os_delay.h"
 
 #ifdef TMC
 #include "iio_tmc5240.h"
@@ -73,11 +74,27 @@ int example_main()
 	struct iio_app_init_param app_init_param = { 0 };
 	struct iio_hw_trig *admt4000_trig_desc;
 	struct no_os_irq_ctrl_desc *admt4000_irq_desc;
-
+	struct no_os_gpio_desc *gpio_desc;
 	struct iio_data_buffer data_buff = {
 		.buff = (void *)iio_data_buffer,
 		.size = DATA_BUFFER_SIZE * 5 * sizeof(uint16_t)
 	};
+
+	/* Initialize GPIO for switch configuration */
+	ret = no_os_gpio_get(&gpio_desc, &spi_sel_b_ip);
+	if (ret)
+		return ret;
+
+	/* Configure ADG714 over GPIO using SEL_B_PIN pin */
+	ret = no_os_gpio_direction_output(gpio_desc, NO_OS_GPIO_HIGH);
+	if (ret)
+		return ret;
+
+	no_os_udelay(1);
+	
+	ret = no_os_gpio_direction_output(gpio_desc, NO_OS_GPIO_LOW);
+	if (ret)
+		return ret;
 
 #ifdef TMC
 	struct tmc5240_iio_dev *tmc_iio_desc;

@@ -46,13 +46,6 @@ struct mbed_spi_init_param spi_extra_ip = {
 	.use_sw_csb = false,
 };
 
-struct mbed_spi_init_param spi_sel_b_extra_ip = {
-	.spi_miso_pin = SPI_MISO,
-	.spi_mosi_pin = SPI_MOSI,
-	.spi_clk_pin = SPI_SCK,
-	.use_sw_csb = true,
-};
-
 struct mbed_spi_init_param spi_tmc_extra_ip = {
 	.spi_miso_pin = SPI_MISO,
 	.spi_mosi_pin = SPI_MOSI,

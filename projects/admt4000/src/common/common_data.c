@@ -98,21 +98,11 @@ struct admt4000_init_param admt4000_ip = {
 	.dev_vdd = ADMT4000_3P3V,
 };
 
-struct no_os_gpio_init_param spi_sel_b_ip = {
+struct no_os_gpio_init_param gpio_sel_b_ip = {
 	.port = GPIO_SPI_SEL_PORT,
 	.number = GPIO_SPI_SEL_PIN,
 	.platform_ops = GPIO_OPS,
 	.extra = GPIO_EXTRA,
-};
-
-struct no_os_spi_init_param spi_sel_b_spi_ip = {
-	.device_id = SPI_DEVICE_ID,
-	.max_speed_hz = SPI_BAUDRATE,
-	.chip_select = GPIO_SPI_SEL_PIN,
-	.mode = NO_OS_SPI_MODE_3,
-	.bit_order = NO_OS_SPI_BIT_ORDER_MSB_FIRST,
-	.platform_ops = SPI_OPS,
-	.extra = SPI_SEL_EXTRA,
 };
 
 #ifdef TMC

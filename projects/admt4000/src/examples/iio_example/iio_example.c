@@ -36,16 +36,34 @@
 #include "iio_admt4000.h"
 #include "iio_app.h"
 #include "no_os_print_log.h"
+#include "no_os_delay.h"
 
 int example_main()
 {
 	int ret;
 	struct admt4000_iio_dev *admt4000_iio_desc;
 	struct admt4000_iio_dev_init_param admt4000_iio_ip;
+	struct no_os_gpio_desc *gpio_desc;
 	struct iio_app_desc *app;
 	struct iio_app_init_param app_init_param = { 0 };
 
 	admt4000_iio_ip.admt4000_init_param = &admt4000_ip;
+
+	/* Initialize GPIO for switch configuration */
+	ret = no_os_gpio_get(&gpio_desc, &spi_sel_b_ip);
+	if (ret)
+		return ret;
+
+	/* Configure ADG714 over GPIO using SEL_B_PIN pin */
+	ret = no_os_gpio_direction_output(gpio_desc, NO_OS_GPIO_HIGH);
+	if (ret)
+		return ret;
+
+	no_os_udelay(1);
+	
+	ret = no_os_gpio_direction_output(gpio_desc, NO_OS_GPIO_LOW);
+	if (ret)
+		return ret;
 
 	ret = admt4000_iio_init(&admt4000_iio_desc, &admt4000_iio_ip);
 	if (ret)
