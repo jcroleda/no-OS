@@ -63,27 +63,24 @@ extern UART_HandleTypeDef huart5;
 #define SPI_OPS			    &stm32_spi_ops
 #define SPI_CS_PORT         0
 #define SPI_CS              15
-#define GPIO_SPI_SEL_PORT	6
-#define GPIO_SPI_SEL_PIN	11
 #define SPI_EXTRA		    &spi_extra_ip
-#define SPI_SEL_EXTRA		&spi_sel_b_extra_ip
 
 
 #define GPIO_OPS		&stm32_gpio_ops
 #define GPIO_EXTRA		&gpio_extra_ip
-#define GPIO_EXTRA		&gpio_extra_ip
 
+#define GPIO_SPI_SEL_PORT	    6
+#define GPIO_SPI_SEL_PIN	    11
 #define GPIO_SHDN_N_PORT        6
-#define GPIO_SHDN_N		        7
+#define GPIO_SHDN_N_PIN		    7
 #define GPIO_GPIO0_BUSY_PORT    3
-#define GPIO_GPIO0_BUSY		    12
+#define GPIO_GPIO0_BUSY_PIN     12
 #define GPIO_COIL_RS_PORT       6
-#define GPIO_COIL_RS		    9
+#define GPIO_COIL_RS_PIN        9
 #define GPIO_CNV_PORT           0
-#define GPIO_CNV		        11
-
-#define GPIO_ACALC_PORT		0
-#define GPIO_ACALC		    10
+#define GPIO_CNV_PIN            11
+#define GPIO_ACALC_PORT		    0
+#define GPIO_ACALC_PIN          10
 
 #define GPIO_IRQ_ID		        10
 #define GPIO_IRQ_OPS		    &stm32_gpio_irq_ops
