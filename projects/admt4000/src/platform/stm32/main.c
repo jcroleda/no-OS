@@ -45,7 +45,7 @@ int main()
 	struct admt4000_dev *admt;
 	struct no_os_uart_desc *uart_desc;
 	int ret;
-
+	
 	spi_extra_ip.get_input_clock = HAL_RCC_GetPCLK1Freq;
 #ifdef TMC
 	spi_tmc_extra_ip.get_input_clock = HAL_RCC_GetPCLK1Freq;

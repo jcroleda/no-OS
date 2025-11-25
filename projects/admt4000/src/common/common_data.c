@@ -56,30 +56,51 @@ const struct no_os_spi_init_param admt4000_spi_ip = {
 	.extra = SPI_EXTRA,
 };
 
-const struct no_os_gpio_init_param gpio_coil_rs_ip = {
-	.port = GPIO_SPI_SEL_PORT,
+struct no_os_gpio_init_param gpio_coil_rs_ip = {
+	.port = GPIO_COIL_RS_PORT,
 	.number = GPIO_COIL_RS,
 	.platform_ops = GPIO_OPS,
 	.extra = GPIO_EXTRA,
 };
 
 const struct no_os_gpio_init_param gpio_busy_ip = {
-	.port = GPIO_SPI_SEL_PORT,
+	.port = GPIO_GPIO0_BUSY_PORT,
 	.number = GPIO_GPIO0_BUSY,
 	.platform_ops = GPIO_OPS,
 	.extra = GPIO_EXTRA,
 };
 
-struct no_os_gpio_init_param gpio_shdn_n_ip = {
-	.port = GPIO_SPI_SEL_PORT,
-	.number = GPIO_SHDN_N,
+const struct no_os_gpio_init_param gpio_gpio4_ip = {
+	.port = GPIO_GPIO4_PORT,
+	.number = GPIO_GPIO4,
 	.platform_ops = GPIO_OPS,
 	.extra = GPIO_EXTRA,
 };
 
 struct no_os_gpio_init_param gpio_cnv_ip = {
-	.port = GPIO_SPI_SEL_PORT,
+	.port = GPIO_CNV_PORT,
 	.number = GPIO_CNV,
+	.platform_ops = GPIO_OPS,
+	.extra = GPIO_EXTRA,
+};
+
+struct no_os_gpio_init_param gpio_shdn_n_ip = {
+	.port = GPIO_SHDN_N_PORT,
+	.number = GPIO_SHDN_N,
+	.platform_ops = GPIO_OPS,
+	.extra = GPIO_EXTRA,
+};
+
+struct no_os_gpio_init_param gpio_v_en_ip = {
+	.port = GPIO_V_EN_PORT,
+	.number = GPIO_V_EN,
+	.platform_ops = GPIO_OPS,
+	.extra = GPIO_EXTRA,
+};
+
+struct no_os_gpio_init_param gpio_rstb_ip = {
+	.port = GPIO_RSTB_PORT,
+	.number = GPIO_RSTB,
 	.platform_ops = GPIO_OPS,
 	.extra = GPIO_EXTRA,
 };
@@ -95,14 +116,8 @@ struct admt4000_init_param admt4000_ip = {
 	.spi_init_param = admt4000_spi_ip,
 	.gpio_acalc = gpio_acalc_ip,
 	.gpio_busy = gpio_busy_ip,
+	.gpio_gpio4 = gpio_gpio4_ip,
 	.dev_vdd = ADMT4000_3P3V,
-};
-
-struct no_os_gpio_init_param gpio_sel_b_ip = {
-	.port = GPIO_SPI_SEL_PORT,
-	.number = GPIO_SPI_SEL_PIN,
-	.platform_ops = GPIO_OPS,
-	.extra = GPIO_EXTRA,
 };
 
 #ifdef TMC

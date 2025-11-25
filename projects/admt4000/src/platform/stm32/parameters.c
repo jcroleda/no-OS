@@ -43,6 +43,11 @@ struct stm32_gpio_init_param gpio_extra_ip = {
 	.speed = GPIO_SPEED_FREQ_VERY_HIGH,
 };
 
+struct stm32_gpio_init_param gpio_in_extra_ip = {
+	.mode = GPIO_MODE_INPUT,
+	.speed = GPIO_SPEED_FREQ_VERY_HIGH,
+};
+
 struct stm32_spi_init_param spi_extra_ip = {
 	.chip_select_port = SPI_CS_PORT,
 };
