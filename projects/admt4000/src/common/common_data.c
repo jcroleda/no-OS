@@ -63,7 +63,7 @@ struct no_os_gpio_init_param gpio_coil_rs_ip = {
 	.extra = GPIO_EXTRA,
 };
 
-const struct no_os_gpio_init_param gpio_busy_ip = {
+struct no_os_gpio_init_param gpio_busy_ip = {
 	.port = GPIO_GPIO0_BUSY_PORT,
 	.number = GPIO_GPIO0_BUSY,
 	.platform_ops = GPIO_OPS,
@@ -105,7 +105,7 @@ struct no_os_gpio_init_param gpio_rstb_ip = {
 	.extra = GPIO_EXTRA,
 };
 
-const struct no_os_gpio_init_param gpio_acalc_ip = {
+struct no_os_gpio_init_param gpio_acalc_ip = {
 	.port = GPIO_ACALC_PORT,
 	.number = GPIO_ACALC,
 	.platform_ops = GPIO_OPS,
@@ -114,9 +114,9 @@ const struct no_os_gpio_init_param gpio_acalc_ip = {
 
 struct admt4000_init_param admt4000_ip = {
 	.spi_init_param = admt4000_spi_ip,
-	.gpio_acalc = gpio_acalc_ip,
-	.gpio_busy = gpio_busy_ip,
-	.gpio_gpio4 = gpio_gpio4_ip,
+	.gpio_acalc = &gpio_acalc_ip,
+	.gpio_busy = &gpio_busy_ip,
+	//.gpio_gpio4 = gpio_gpio4_ip,
 	.dev_vdd = ADMT4000_3P3V,
 };
 

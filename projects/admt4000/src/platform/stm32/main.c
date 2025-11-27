@@ -42,7 +42,6 @@ extern int example_main();
 
 int main()
 {
-	struct admt4000_dev *admt;
 	struct no_os_uart_desc *uart_desc;
 	int ret;
 	

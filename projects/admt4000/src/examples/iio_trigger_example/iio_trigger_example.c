@@ -37,12 +37,9 @@
 #include "iio_admt_evb.h"
 #include "iio_trigger.h"
 #include "iio_app.h"
-<<<<<<< HEAD
 #include "no_os_delay.h"
 
-=======
 #include "no_os_print_log.h"
->>>>>>> d82013d8e (temp projects update)
 #ifdef TMC
 #include "iio_tmc5240.h"
 #endif
@@ -95,22 +92,6 @@ int example_main()
 		.buff = (void *)iio_data_buffer,
 		.size = DATA_BUFFER_SIZE * 5 * sizeof(uint16_t)
 	};
-
-	/* Initialize GPIO for switch configuration */
-	ret = no_os_gpio_get(&gpio_desc, &spi_sel_b_ip);
-	if (ret)
-		return ret;
-
-	/* Configure ADG714 over GPIO using SEL_B_PIN pin */
-	ret = no_os_gpio_direction_output(gpio_desc, NO_OS_GPIO_HIGH);
-	if (ret)
-		return ret;
-
-	no_os_udelay(1);
-	
-	ret = no_os_gpio_direction_output(gpio_desc, NO_OS_GPIO_LOW);
-	if (ret)
-		return ret;
 
 #ifdef TMC
 	struct tmc5240_iio_dev *tmc_iio_desc;
