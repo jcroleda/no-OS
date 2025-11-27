@@ -405,7 +405,7 @@ static int admt4000_iio_reg_read(struct admt4000_iio_dev *dev, uint32_t reg,
 	int ret;
 	uint16_t temp;
 
-	ret = admt4000_read(dev->admt4000_desc, (uint8_t)reg,
+	ret = admt4000_reg_read(dev->admt4000_desc, (uint8_t)reg,
 			    &temp, NULL);
 	*readval = temp;
 
@@ -423,7 +423,7 @@ static int admt4000_iio_reg_read(struct admt4000_iio_dev *dev, uint32_t reg,
 static int admt4000_iio_reg_write(struct admt4000_iio_dev *dev, uint32_t reg,
 				  uint32_t writeval)
 {
-	return admt4000_write(dev->admt4000_desc, (uint8_t)reg,
+	return admt4000_reg_write(dev->admt4000_desc, (uint8_t)reg,
 			      (uint16_t) writeval);
 }
 
