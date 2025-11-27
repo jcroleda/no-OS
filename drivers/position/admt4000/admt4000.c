@@ -98,8 +98,8 @@ int admt4000_init(struct admt4000_dev **device,
 	if (ret)
 		goto admt4000_init_err;
 
-	if (&init_param->gpio_busy) {
-		ret = no_os_gpio_get(&dev->gpio_busy, &init_param->gpio_busy);
+	if (init_param->gpio_busy) {
+		ret = no_os_gpio_get(&dev->gpio_busy, init_param->gpio_busy);
 		if (ret)
 			goto admt4000_init_err;
 
@@ -116,9 +116,9 @@ int admt4000_init(struct admt4000_dev **device,
 			goto admt4000_init_err;
 	}
 
-	if (&init_param->gpio_cnv) {
+	if (init_param->gpio_cnv) {
 		ret = no_os_gpio_get(&dev->gpio_cnv,
-				     &init_param->gpio_cnv);
+				     init_param->gpio_cnv);
 		if (ret)
 			goto admt4000_init_err;
 		ret = no_os_gpio_direction_output(dev->gpio_coil_rs,
@@ -131,9 +131,9 @@ int admt4000_init(struct admt4000_dev **device,
 			goto admt4000_init_err;
 	}
 
-	if (&init_param->gpio_acalc) {
+	if (init_param->gpio_acalc) {
 		ret = no_os_gpio_get(&dev->gpio_acalc,
-				     &init_param->gpio_acalc);
+				     init_param->gpio_acalc);
 		if (ret)
 			goto admt4000_init_err;
 
@@ -150,9 +150,9 @@ int admt4000_init(struct admt4000_dev **device,
 			goto admt4000_init_err;
 	}
 
-	if (&init_param->gpio_coil_rs) {
+	if (init_param->gpio_coil_rs) {
 		ret = no_os_gpio_get(&dev->gpio_coil_rs,
-				     &init_param->gpio_coil_rs);
+				     init_param->gpio_coil_rs);
 		if (ret)
 			goto admt4000_init_err;
 		ret = no_os_gpio_direction_output(dev->gpio_coil_rs,
@@ -525,11 +525,8 @@ int admt4000_update_reg_ecc(struct admt4000_dev *device, uint16_t *ecc_val)
 	temp = no_os_get_unaligned_be16(ecc);
 
 	/* Store in return variable if needed*/
-	if (temp != NULL)
-		if (ecc_val != NULL)
-			*ecc_val = temp;
-	else
-		return -EINVAL;
+	if (ecc_val != NULL)
+		*ecc_val = temp;
 
 	/* All registers of interest are in page 2 */
 	ret = admt4000_set_regs_page(device, ADMT4000_REGISTER_PAGE_02);
@@ -588,10 +585,7 @@ int admt4000_reg_read(struct admt4000_dev *device, uint8_t reg_addr,
 	if (no_os_field_get(ADMT4000_RCV_CRC, buf[3]) != excess)
 		return -EBADMSG;
 
-	if (buf[3] != NULL)
-		*verif = buf[3];
-	else
-		return -EINVAL;
+	*verif = buf[3];
 
 	return 0;
 }
@@ -1115,7 +1109,7 @@ int admt4000_get_angle(struct admt4000_dev *device, uint16_t *raw_angle,
 	uint16_t raw_temp;
 	uint8_t verif;
 
-	if (angle_type < ADMT4000_RAW_SINE || angle_type > ADMT4000_RAW_SECANGLEQ)
+	if (angle_type != ADMT4000_RAW_SINE && angle_type != ADMT4000_RAW_SECANGLEQ)
 		return -EINVAL;
 
 	if (! device->is_page_zero) {
@@ -2010,9 +2004,6 @@ int admt4000_set_converted_hmag_config(struct admt4000_dev *device,
 				       uint8_t hmag, uint32_t mag)
 {
 	uint16_t temp;
-
-	if (mag < 0)
-		return -EINVAL;
 
 	temp = (mag * ADMT4000_CORDIC_SCALER) / ADMT4000_HMAG_RES;
 

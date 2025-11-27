@@ -33,6 +33,7 @@
 *******************************************************************************/
 #include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 #include "iio_admt4000.h"
 #include "admt4000.h"
 #include "no_os_util.h"
@@ -440,7 +441,7 @@ static int admt4000_iio_show_conv_sync_mode_avail(void *dev, char *buf,
 		uint32_t len, const struct iio_ch_info *channel, intptr_t priv)
 {
 	int length = 0;
-	int i;
+	uint32_t i;
 
 	for (i = 0; i < NO_OS_ARRAY_SIZE(admt4000_conv_sync_mode_avail); i++)
 		length += sprintf(buf + length, "%s ",
@@ -466,7 +467,7 @@ static int admt4000_iio_show_conv_sync_mode(void *dev, char *buf, uint32_t len,
 	struct admt4000_iio_dev *iio_admt4000;
 	struct admt4000_dev *admt4000;
 	int ret;
-	int32_t mode = 0;
+	enum admt4000_conv_sync_mode mode = ADMT4000_SEQ_CTRL;
 
 	ret = admt4000_get_dev(dev, &iio_admt4000, &admt4000);
 	if (ret)
@@ -496,7 +497,6 @@ static int admt4000_iio_store_conv_sync_mode(void *dev, char *buf, uint32_t len,
 	struct admt4000_iio_dev *iio_admt4000;
 	struct admt4000_dev *admt4000;
 	int ret;
-	uint16_t temp = 0;
 	uint16_t i;
 
 	ret = admt4000_get_dev(dev, &iio_admt4000, &admt4000);
@@ -564,7 +564,6 @@ static int admt4000_iio_show_conv_mode(void *dev, char *buf, uint32_t len,
 	struct admt4000_iio_dev *iio_admt4000;
 	struct admt4000_dev *admt4000;
 	int32_t conv_mode = 0;
-	uint16_t temp;
 	int ret;
 	bool is_one_shot;
 
@@ -632,20 +631,17 @@ static int admt4000_iio_show_angle_filt_en(void *dev, char *buf, uint32_t len,
 	struct admt4000_iio_dev *iio_admt4000;
 	struct admt4000_dev *admt4000;
 	int ret;
-	bool temp, en = 0;
+	bool en = false;
 
 	ret = admt4000_get_dev(dev, &iio_admt4000, &admt4000);
 	if (ret)
 		return ret;
 
-	ret = admt4000_get_angle_filt(admt4000, &temp);
+	ret = admt4000_get_angle_filt(admt4000, &en);
 	if (ret)
 		return ret;
 
-	if (temp)
-		en = 1;
-
-	return iio_format_value(buf, len, IIO_VAL_INT, 1, &en);
+	return iio_format_value(buf, len, IIO_VAL_INT, 1, (int32_t *)&en);
 }
 
 /***************************************************************************//**
@@ -660,7 +656,7 @@ static int admt4000_iio_show_angle_filt_en(void *dev, char *buf, uint32_t len,
 static int admt4000_iio_show_harmonic_corr_src_avail(void *dev, char *buf,
 		uint32_t len, const struct iio_ch_info *channel, intptr_t priv)
 {
-	int i, length = 0;
+	uint32_t i, length = 0;
 
 	for (i = 0; i < NO_OS_ARRAY_SIZE(admt4000_harmonic_corr_src_avail); i++)
 		length += sprintf(buf + length, "%s ",
@@ -987,10 +983,10 @@ static int admt4000_iio_read_raw(void *dev, char *buf, uint32_t len,
 	struct admt4000_iio_dev *iio_admt4000;
 	struct admt4000_dev *admt4000;
 	int32_t ret;
-	int32_t vals[2];
 	uint16_t angle[2];
-	uint16_t cos_val, sin_val, temp;
-	int8_t turns;
+	int16_t cos_val, sin_val;
+	uint16_t temp;
+	uint8_t turns;
 	bool is_one_shot;
 
 	ret = admt4000_get_dev(dev, &iio_admt4000, &admt4000);
@@ -998,13 +994,11 @@ static int admt4000_iio_read_raw(void *dev, char *buf, uint32_t len,
 		return ret;
 
 	if (channel->type == IIO_TEMP) {
-		ret = admt4000_get_temp(admt4000, &temp, true);
+		ret = admt4000_get_temp(admt4000, &temp);
 		if (ret)
 			return ret;
 
-		ret = (int32_t)temp;
-
-		return iio_format_value(buf, len, IIO_VAL_INT, 1, &ret);
+		return iio_format_value(buf, len, IIO_VAL_INT, 1, (int32_t *)&temp);
 	}
 
 	if (channel->type != IIO_ANGL && channel->type != IIO_COUNT)
@@ -1066,10 +1060,9 @@ static int admt4000_iio_trigger_handler(struct iio_device_data *dev_data)
 {
 	struct admt4000_iio_dev *iio_admt4000;
 	struct admt4000_dev *admt4000;
-	bool is_one_shot, cnv;
 	int i = 0, ret;
 	uint16_t angles[2];
-	int8_t turns;
+	uint8_t turns;
 
 	if (!dev_data)
 		return -EINVAL;
@@ -1093,21 +1086,21 @@ static int admt4000_iio_trigger_handler(struct iio_device_data *dev_data)
 		iio_admt4000->data[i++] = (int16_t) angles[1];
 
 	if (dev_data->buffer->active_mask & NO_OS_BIT(ADMT4000_TEMP)) {
-		ret = admt4000_get_temp(admt4000, &iio_admt4000->data[i], true);
+		ret = admt4000_get_temp(admt4000, &iio_admt4000->data[i]);
 		i++;
 		if (ret)
 			return -EINVAL;
 	}
 
 	if (dev_data->buffer->active_mask & NO_OS_BIT(ADMT4000_COSINE)) {
-		ret = admt4000_get_cos(admt4000, &iio_admt4000->data[i]);
+		ret = admt4000_get_cos(admt4000, (int16_t *)&iio_admt4000->data[i]);
 		i++;
 		if (ret)
 			return -EINVAL;
 	}
 
 	if (dev_data->buffer->active_mask & NO_OS_BIT(ADMT4000_SINE)) {
-		ret = admt4000_get_sin(admt4000, &iio_admt4000->data[i]);
+		ret = admt4000_get_sin(admt4000, (int16_t *)&iio_admt4000->data[i]);
 		i++;
 		if (ret)
 			return -EINVAL;

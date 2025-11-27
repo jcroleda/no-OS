@@ -310,10 +310,10 @@ struct admt4000_dev {
 
 struct admt4000_init_param {
 	struct no_os_spi_init_param spi_init_param;
-	struct no_os_gpio_init_param gpio_coil_rs;
-	struct no_os_gpio_init_param gpio_busy;
-	struct no_os_gpio_init_param gpio_cnv;
-	struct no_os_gpio_init_param gpio_acalc;
+	struct no_os_gpio_init_param *gpio_coil_rs;
+	struct no_os_gpio_init_param *gpio_busy;
+	struct no_os_gpio_init_param *gpio_cnv;
+	struct no_os_gpio_init_param *gpio_acalc;
 
 	/* Specifier for ADMT4000 variant based on VDD */
 	enum admt4000_vdd dev_vdd;
